@@ -46,6 +46,7 @@ def meeting_hook():
         logger.error(error)
         raise HTTPError(httplib.NOT_ACCEPTABLE)
 
+
     if not conference.active:
         send_mail(
             message.sender_email,
@@ -148,6 +149,8 @@ def _render_conference_node(node, idx, conf):
             ).limit(1)
         ).wrapped()
         download_count = record.get_download_count()
+        # TODO This is where views should be added to the count
+        view_count = record.get_view_count()
 
         download_url = node.web_url_for(
             'addon_view_or_download_file',
@@ -171,6 +174,7 @@ def _render_conference_node(node, idx, conf):
         'authorUrl': node.creator.url,
         'category': conf.field_names['submission1'] if conf.field_names['submission1'] in node.system_tags else conf.field_names['submission2'],
         'download': download_count,
+        #'view': view_count,
         'downloadUrl': download_url,
         'dateCreated': str(node.date_created),
         'confName': conf.name,

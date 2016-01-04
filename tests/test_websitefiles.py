@@ -492,6 +492,9 @@ class TestFileObj(FilesTestCase):
     def test_get_download_count(self):
         pass
 
+    def test_get_view_count(self):
+        pass
+
 
 class TestFolderObj(FilesTestCase):
 

@@ -57,34 +57,34 @@ def parse_args():
     return parser.parse_args()
 
 
-from nose.tools import *  # noqa
-from tests.base import OsfTestCase
-from tests.factories import UserFactory
-from tests.test_conferences import ConferenceFactory
-
-class TestAddConference(OsfTestCase):
-
-    def test_add_conference(self):
-        user = UserFactory()
-        add_conference('spsp2014', name='SPSP', admins=[user.username], active=True)
-
-        conf = Conference.find_one(Q('endpoint', 'eq', 'spsp2014'))
-        assert_equal(conf.name, 'SPSP')
-        assert_true(conf.active)
-        assert_in(user, conf.admins)
-
-    def test_add_conference_when_admin_user_not_registered(self):
-        with assert_raises(RuntimeError):
-            add_conference('spsp2014', name='SPSP',
-                    admins=['unregister@hotmail.com'], active=True)
-
-    def test_add_conference_when_conference_already_exists(self):
-        conf = ConferenceFactory()
-        user = UserFactory()
-
-        with assert_raises(RuntimeError):
-            add_conference(conf.endpoint, name='SPSP',
-                    admins=[user.username], active=True)
+# from nose.tools import *  # noqa
+# from tests.base import OsfTestCase
+# from tests.factories import UserFactory
+# from tests.test_conferences import ConferenceFactory
+#
+# class TestAddConference(OsfTestCase):
+#
+#     def test_add_conference(self):
+#         user = UserFactory()
+#         add_conference('spsp2014', name='SPSP', admins=[user.username], active=True)
+#
+#         conf = Conference.find_one(Q('endpoint', 'eq', 'spsp2014'))
+#         assert_equal(conf.name, 'SPSP')
+#         assert_true(conf.active)
+#         assert_in(user, conf.admins)
+#
+#     def test_add_conference_when_admin_user_not_registered(self):
+#         with assert_raises(RuntimeError):
+#             add_conference('spsp2014', name='SPSP',
+#                     admins=['unregister@hotmail.com'], active=True)
+#
+#     def test_add_conference_when_conference_already_exists(self):
+#         conf = ConferenceFactory()
+#         user = UserFactory()
+#
+#         with assert_raises(RuntimeError):
+#             add_conference(conf.endpoint, name='SPSP',
+#                     admins=[user.username], active=True)
 
 
 if __name__ == '__main__':

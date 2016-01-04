@@ -581,6 +581,19 @@ class File(FileNode):
 
         return count or 0
 
+    def get_view_count(self, version=None):
+        """Pull the view count from the pagecounter collection
+        Limit to version if specified.
+        Currently only useful for OsfStorage
+        """
+        parts = ['view', self.node._id, self._id]
+        if version is not None:
+            parts.append(version)
+        page = ':'.join([format(part) for part in parts])
+        _, count = get_basic_counters(page)
+
+        return count or 0
+
     def serialize(self):
         if not self.versions:
             return dict(

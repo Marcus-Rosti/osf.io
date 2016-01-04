@@ -17,14 +17,20 @@ logger = logging.getLogger(__name__)
 LOCATION_KEYS = ['service', settings.WATERBUTLER_RESOURCE, 'object']
 
 
-def update_analytics(node, file_id, version_idx):
+def update_analytics(node, file_id, version_idx, view_flag):
     """
     :param Node node: Root node to update
     :param str file_id: The _id field of a filenode
     :param int version_idx: Zero-based version index
+    :param bool view_flag: is the file being viewed or downloaded
     """
-    update_counter(u'download:{0}:{1}'.format(node._id, file_id))
-    update_counter(u'download:{0}:{1}:{2}'.format(node._id, file_id, version_idx))
+    if(view_flag):
+        update_counter(u'view:{0}:{1}'.format(node._id, file_id))
+        update_counter(u'view:{0}:{1}:{2}'.format(node._id, file_id, version_idx))
+    else:
+        update_counter(u'download:{0}:{1}'.format(node._id, file_id))
+        update_counter(u'download:{0}:{1}:{2}'.format(node._id, file_id, version_idx))
+
 
 
 def serialize_revision(node, record, version, index, anon=False):
