@@ -231,8 +231,7 @@ def osfstorage_download(file_node, payload, node_addon, **kwargs): # TODO increm
 
     version = file_node.get_version(version_id, required=True)
     # if it's not a render, it's a download else it's a page_view
-    #   one line else if with lazy evaluation
-    page_view = [lambda: True, lambda: False][request.args.get('mode') not in ('render', )]()
+    page_view = [True, False][request.args.get('mode') not in ('render', )]
     utils.update_analytics(node_addon.owner, file_node._id, int(version.identifier) - 1, page_view)
 
 
